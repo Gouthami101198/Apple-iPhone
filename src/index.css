@@ -1,0 +1,598 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --color-apple-black: #1d1d1f;
+  --color-apple-dark: #161617;
+  --color-apple-gray-dark: #333336;
+  --color-apple-gray: #6e6e73;
+  --color-apple-gray-light: #86868b;
+  --color-apple-bg-gray: #f5f5f7;
+  --color-apple-bg-card: #fbfbfd;
+  --color-apple-blue: #0071e3;
+  --color-apple-blue-hover: #0077ed;
+  --color-apple-orange: #f56300;
+  --color-apple-purple: #594f63;
+  --color-apple-gold: #f4e8ce;
+  --color-apple-silver: #f0f2f2;
+  --color-apple-spaceblack: #343338;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: var(--font-sf);
+  color: var(--color-apple-black);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+#root {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+/* Apple typography utilities */
+.apple-headline {
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+.apple-subhead {
+  letter-spacing: -0.01em;
+}
+
+/* Glassmorphism */
+.apple-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.apple-glass-dark {
+  background: rgba(22, 22, 23, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Scroll-reveal animation with enhanced GPU acceleration and subtle scale */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px) scale(0.98);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Stagger entrance utility */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.is-visible.reveal-stagger > *:nth-child(1) { transition-delay: 50ms; opacity: 1; transform: translateY(0); }
+.reveal.is-visible.reveal-stagger > *:nth-child(2) { transition-delay: 120ms; opacity: 1; transform: translateY(0); }
+.reveal.is-visible.reveal-stagger > *:nth-child(3) { transition-delay: 190ms; opacity: 1; transform: translateY(0); }
+.reveal.is-visible.reveal-stagger > *:nth-child(4) { transition-delay: 260ms; opacity: 1; transform: translateY(0); }
+.reveal.is-visible.reveal-stagger > *:nth-child(5) { transition-delay: 330ms; opacity: 1; transform: translateY(0); }
+
+/* Hide scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Subtle device reflections & shadows */
+.apple-device-shadow {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.apple-device-shadow-dark {
+  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(142, 124, 195, 0.15);
+}
+
+/* Button pulse / glow */
+.apple-glow:hover {
+  box-shadow: 0 0 25px rgba(0, 113, 227, 0.4);
+}
+
+/* Section anchors land below the pinned 44px nav */
+[id] {
+  scroll-margin-top: 56px;
+}
+
+@keyframes dropdown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translate(-50%, 16px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+@keyframes apple-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes apple-float-subtle {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes badge-pop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.05);
+  }
+}
+@keyframes soundwave-bar-1 {
+  0%, 100% { height: 4px; }
+  50% { height: 16px; }
+}
+@keyframes soundwave-bar-2 {
+  0%, 100% { height: 14px; }
+  50% { height: 5px; }
+}
+@keyframes soundwave-bar-3 {
+  0%, 100% { height: 7px; }
+  50% { height: 18px; }
+}
+@keyframes soundwave-bar-4 {
+  0%, 100% { height: 12px; }
+  50% { height: 4px; }
+}
+@keyframes modal-pop {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Apple Pro Metallic Headline Shimmer */
+@keyframes text-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Halo breathing backlight pulse */
+@keyframes aura-pulse {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.78;
+    transform: scale(1.06);
+  }
+}
+
+/* Radar ping for SOS & Satellite */
+@keyframes radar-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.55);
+    opacity: 0;
+  }
+}
+
+/* Battery filling animation */
+@keyframes battery-fill {
+  0% { width: 30%; }
+  50% { width: 85%; }
+  100% { width: 30%; }
+}
+
+/* Laser sweep for Face ID */
+@keyframes laser-sweep {
+  0%, 100% { transform: translateY(-8px); opacity: 0.3; }
+  50% { transform: translateY(8px); opacity: 1; }
+}
+
+/* Signal wave propagation for 5G */
+@keyframes signal-wave {
+  0%, 100% { opacity: 0.3; stroke-width: 1.2px; }
+  50% { opacity: 1; stroke-width: 2px; }
+}
+
+/* Floating dock slide-up animation */
+@keyframes dock-slide-up {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.animate-apple-float {
+  animation: apple-float 6s ease-in-out infinite;
+}
+.animate-apple-float-subtle {
+  animation: apple-float-subtle 4s ease-in-out infinite;
+}
+.animate-badge-pop {
+  animation: badge-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.animate-pulse-subtle {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+.animate-modal-pop {
+  animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.animate-aura-pulse {
+  animation: aura-pulse 5s ease-in-out infinite;
+}
+.animate-dock-slide-up {
+  animation: dock-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Metallic text shimmer utility */
+.shimmer-text-pro {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.65) 0%,
+    rgba(255, 255, 255, 1) 25%,
+    rgba(215, 195, 255, 1) 50%,
+    rgba(255, 255, 255, 1) 75%,
+    rgba(255, 255, 255, 0.65) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 7s linear infinite;
+}
+
+.shimmer-text-gold {
+  background: linear-gradient(
+    90deg,
+    #b38728 0%,
+    #fbf5b7 25%,
+    #daae51 50%,
+    #fbf5b7 75%,
+    #aa771c 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+.shimmer-text-blue {
+  background: linear-gradient(
+    90deg,
+    #1d3a8a 0%,
+    #2563eb 25%,
+    #60a5fa 50%,
+    #2563eb 75%,
+    #1f3a9a 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+/* Card hover lift effect */
+.apple-card-hover {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.apple-card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 42px -10px rgba(0, 0, 0, 0.09), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+}
+
+/* Specular sheen swipe across devices/cards on hover */
+.specular-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.specular-sheen::after {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: linear-gradient(
+    65deg,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 255, 255, 0.18) 50%,
+    rgba(255, 255, 255, 0) 65%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.specular-sheen:hover::after,
+.group:hover .specular-sheen::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+/* Global smooth image transition across entire site */
+img {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease-out;
+  will-change: transform;
+}
+
+/* Dedicated Apple image hover animations */
+.apple-img-hover {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.apple-img-hover:hover,
+.group:hover .apple-img-hover {
+  transform: translateY(-8px) scale(1.04);
+  filter: drop-shadow(0 28px 45px rgba(0, 0, 0, 0.18));
+}
+
+.apple-img-lift {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.apple-img-lift:hover,
+.group:hover .apple-img-lift {
+  transform: translateY(-10px) scale(1.035);
+  filter: drop-shadow(0 32px 50px rgba(0, 0, 0, 0.22));
+}
+
+.apple-img-zoom {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.apple-img-zoom:hover,
+.group:hover .apple-img-zoom {
+  transform: scale(1.055);
+}
+
+.apple-img-glow {
+  transition: filter 0.5s ease-out, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.apple-img-glow:hover,
+.group:hover .apple-img-glow {
+  filter: drop-shadow(0 0 30px rgba(0, 113, 227, 0.45));
+  transform: scale(1.035);
+}
+
+/* Panoramic Banner image transition (Why Apple) */
+.apple-img-panoramic {
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.group:hover .apple-img-panoramic {
+  transform: scale(1.07);
+  filter: brightness(1.03);
+}
+
+/* Carrier deal badge interactive transition */
+.apple-carrier-badge {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+.apple-carrier-badge:hover {
+  transform: translateY(-6px) scale(1.07);
+  filter: drop-shadow(0 14px 22px rgba(0, 0, 0, 0.12));
+}
+
+
+/* Ambient floating animations for product images (applied to WRAPPERS, not image directly) */
+@keyframes image-float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.8deg);
+  }
+}
+
+@keyframes image-float-alt {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-0.8deg);
+  }
+}
+
+@keyframes tv-glow {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(0.96);
+    filter: blur(48px) hue-rotate(0deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.18);
+    filter: blur(56px) hue-rotate(45deg);
+  }
+}
+
+.animate-image-float-slow {
+  animation: image-float-slow 5s ease-in-out infinite;
+}
+.animate-image-float-alt {
+  animation: image-float-alt 5.5s ease-in-out infinite;
+}
+.animate-tv-glow {
+  animation: tv-glow 4s ease-in-out infinite;
+}
+
+/* Rainbow sheen for Apple Card & Gift Card */
+.rainbow-sheen {
+  position: relative;
+  overflow: hidden;
+}
+.rainbow-sheen::after {
+  content: '';
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 100, 150, 0.25) 45%,
+    rgba(255, 230, 100, 0.35) 50%,
+    rgba(100, 200, 255, 0.3) 55%,
+    transparent 65%
+  );
+  transform: translateX(-100%) rotate(25deg);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.rainbow-sheen:hover::after,
+.group:hover .rainbow-sheen::after {
+  transform: translateX(100%) rotate(25deg);
+}
+
+/* ==========================================================================
+   SERVICES SECTION SPECIFIC IMAGE ANIMATIONS (Apple TV+, Music, News, Arcade)
+   ========================================================================== */
+
+/* Apple TV+ dynamic interaction */
+.tv-tile-wrapper {
+  position: relative;
+}
+.tv-img-motion {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+}
+.group-tv:hover .tv-img-motion {
+  transform: translateY(-14px) scale(1.1);
+  filter: drop-shadow(0 25px 50px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 40px rgba(120, 140, 255, 0.3));
+}
+.group-tv:hover .tv-aura-backlight {
+  transform: scale(1.35);
+  opacity: 0.95;
+}
+
+/* Apple Music Album Deck 3D Fanning & Hover */
+.music-deck {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+.music-card-item {
+  transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.2), box-shadow 0.4s ease, filter 0.4s ease;
+  will-change: transform;
+}
+
+/* Tile-level hover: fan out the 3 covers gracefully */
+.group-music:hover .music-album-1 {
+  transform: rotate(-14deg) translateX(-24px) translateY(-10px) scale(1.05);
+  box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.28);
+}
+.group-music:hover .music-album-2 {
+  transform: translateY(-18px) scale(1.12);
+  box-shadow: 0 35px 65px -12px rgba(0, 0, 0, 0.32);
+}
+.group-music:hover .music-album-3 {
+  transform: rotate(14deg) translateX(24px) translateY(-10px) scale(1.05);
+  box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.28);
+}
+
+/* Direct hover on individual album cover: explodes to foreground */
+.music-album-1:hover {
+  transform: rotate(0deg) translateX(-10px) translateY(-26px) scale(1.28) !important;
+  z-index: 50 !important;
+  box-shadow: 0 40px 75px -12px rgba(0, 0, 0, 0.45) !important;
+}
+.music-album-2:hover {
+  transform: translateY(-28px) scale(1.26) !important;
+  z-index: 50 !important;
+  box-shadow: 0 45px 85px -12px rgba(0, 0, 0, 0.45) !important;
+}
+.music-album-3:hover {
+  transform: rotate(0deg) translateX(10px) translateY(-26px) scale(1.28) !important;
+  z-index: 50 !important;
+  box-shadow: 0 40px 75px -12px rgba(0, 0, 0, 0.45) !important;
+}
+
+/* Vinyl record slide-out peek on hover */
+.vinyl-disc {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+.music-album-2:hover .vinyl-disc {
+  transform: translateX(38px) rotate(45deg);
+  opacity: 1;
+}
+
+/* Apple News+ magazine lift */
+.group-news .news-img-motion {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.group-news:hover .news-img-motion {
+  transform: translateY(-16px) scale(1.07);
+  filter: drop-shadow(0 30px 45px rgba(0, 0, 0, 0.22));
+}
+
+/* Apple Arcade joyful bounce */
+.group-arcade .arcade-img-motion {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.5s ease;
+  will-change: transform;
+}
+.group-arcade:hover .arcade-img-motion {
+  transform: translateY(-16px) scale(1.22) rotate(6deg);
+  filter: drop-shadow(0 25px 40px rgba(255, 60, 90, 0.42));
+}
+
+/* Apple Fitness+ motion */
+.group-fit .fit-img-motion {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.group-fit:hover .fit-img-motion {
+  transform: translateY(-12px) scale(1.06);
+  filter: drop-shadow(0 28px 45px rgba(0, 0, 0, 0.2));
+}
+
+/* Apple Gift Card motion */
+.group-gift .gift-img-motion {
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.group-gift:hover .gift-img-motion {
+  transform: translateY(-12px) scale(1.07) rotate(-1deg);
+  filter: drop-shadow(0 25px 40px rgba(0, 0, 0, 0.2));
+}
+
+
+
+
